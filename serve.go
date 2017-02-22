@@ -64,10 +64,10 @@ func (srv *Server) serve(w dns.ResponseWriter, req *dns.Msg, z *Zone) {
 		copy(realIP, addr.IP)
 	}
 	if qle != nil {
-		qle.RemoteAddr = realIP.String()
+		qle.RemoteAddr = realIP.String()//Client IP here
 	}
 
-	z.Metrics.ClientStats.Add(realIP.String())
+	z.Metrics.ClientStats.Add(realIP.String())//Client IP here
 
 	var ip net.IP // EDNS or real IP
 	var edns *dns.EDNS0_SUBNET
@@ -100,13 +100,13 @@ func (srv *Server) serve(w dns.ResponseWriter, req *dns.Msg, z *Zone) {
 	}
 
 	if len(ip) == 0 { // no edns subnet
-		ip = realIP
+		ip = realIP //Client IP here
 		if qle != nil {
-			qle.ClientAddr = fmt.Sprintf("%s/%d", ip, len(ip)*8)
+			qle.ClientAddr = fmt.Sprintf("%s/%d", ip, len(ip)*8)//Client IP here in two ip's 
 		}
 	}
 
-	targets, netmask := z.Options.Targeting.GetTargets(ip)
+	targets, netmask := z.Options.Targeting.GetTargets(ip) //Client IP here
 
 	if qle != nil {
 		qle.Targets = targets
