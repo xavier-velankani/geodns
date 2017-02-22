@@ -34,7 +34,7 @@ func (srv *Server) listenAndServe(ip string) {
 
 	for _, prot := range prots {
 		go func(p string) {
-			server := &dns.Server{Addr: ip, Net: p}
+			server := &dns.Server{Addr: ip, Net: p} //ip is geodns server & p is port number
 
 			log.Printf("Opening on %s %s", ip, p)
 			if err := server.ListenAndServe(); err != nil {
